@@ -9,11 +9,10 @@
     <link rel="stylesheet" href="styling.css">
 </head>
 <body>
-    <h1>Sõnasõlm</h1>
+    <h1>Sõnasõlm.</h1>
 
     <div id="koduleht" class="leht">
         <div class="nupud">
-            <button onclick="avaKodu()">Kodu</button>
             <button onclick="avaMäng()">Alusta</button>
             <button onclick="avaÕpetus()">Õpetus</button>
         </div>
@@ -25,15 +24,19 @@
     <div id="mänguleht" class="leht" style="display:none">
         <h2>Mäng</h2>
         <p>Tekst...</p>
-        <button onclick="avaKodu()">Kodu</button>
+        <div class="nupud">
+            <button onclick="avaKodu()">Kodu</button>
+        </div>
     </div>
 
     <div id="õpetus" class="leht" style="display:none">
         <h2>Õpetus</h2>
         <p>Mängu eesmärk on...</p>
         <p>Näiteks...</p>
-        <button onclick="avaKodu()">Kodu</button>
-        <button onclick="avaMäng()">Alusta</button>
+        <div class="nupud">
+            <button onclick="avaKodu()">Kodu</button>
+            <button onclick="avaMäng()">Alusta</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
