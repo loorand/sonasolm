@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sõnasõlm</title>
+</head>
+<body>
+    <h1>Sõnasõlm</h1>
+
+    <div id="nupud">
+        <button onclick="avaKodu()">Kodu</button>
+        <button onclick="avaMäng()">Alusta</button>
+        <button onclick="avaÕpetus()">Õpetus</button>
+    </div>
+
+    <div id="koduleht">
+        <h2>Pealkiri</h2>
+        <p>Tekst...</p>
+    </div>
+
+    <div id="mänguleht" style="display:none;">
+        <h2>Mäng</h2>
+        <p>Tekst...</p>
+        <button onclick="avaKodu()">Home</button>
+    </div>
+
+    <div id="õpetus" style="display:none;">
+        <h2>Õpetus</h2>
+        <p>Mängu eesmärk on...</p>
+        <p>Näiteks...</p>
+        <button onclick="avaKodu()">Home</button>
+        <button onclick="avaMäng()">Alusta</button>
+    </div>
+
+    <script>
+        window.onload = avaKodu;
+        
+        function avaKodu() {
+            document.getElementById("koduleht").style.display = "block";
+            document.getElementById("mänguleht").style.display = "none";
+            document.getElementById("õpetus").style.display = "none";
+        }
+
+        function avaMäng() {
+            document.getElementById("koduleht").style.display = "none";
+            document.getElementById("mänguleht").style.display = "block";
+            document.getElementById("õpetus").style.display = "none";
+        }
+
+        function avaÕpetus() {
+            document.getElementById("koduleht").style.display = "none";
+            document.getElementById("mänguleht").style.display = "none";
+            document.getElementById("õpetus").style.display = "block";
+        }
+    </script>
+</body>
+</html>
