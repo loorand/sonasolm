@@ -22,11 +22,30 @@
     </div>
 
     <div id="mänguleht" class="leht" style="display:none">
-        <h2>Mäng</h2>
-        <p>Tekst...</p>
+        <!-- <h2>Mäng</h2> -->
+        <!-- <p>Tekst...</p> -->
+
+
+        <!-- <h2 id="sõna"></h2> -->
+        <!-- <p id="definitsioon"></p> -->
+        <div id="graaf">
+            <div id="ülemine" class="tase"></div>
+            <div id="keskmine" class="tase">
+                <div id="vasak"></div>
+                <div id="sõna"></div>
+                <div id="parem"></div>
+            </div>
+            <div id="alumine" class="tase"></div>
+        </div>
+
         <div class="nupud">
+            <button onclick="uusSõna()">Uus sõna</button>
             <button onclick="avaKodu()">Kodu</button>
         </div>
+    </div>
+
+    <div id="popup" style="display:none;">
+        <div id="popup-content"></div>
     </div>
 
     <div id="õpetus" class="leht" style="display:none">

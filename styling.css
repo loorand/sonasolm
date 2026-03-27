@@ -14,6 +14,7 @@ h1 {
 }
 
 h2 {
+    font-size: 48px;
     margin-top: 80px;
 }
 
@@ -26,7 +27,9 @@ p {
 }
 
 .nupud {
-    display: flex;
+    top: 0%;
+    position: centre;
+    /* display: flex; */
     flex-direction: column;
     align-items: center;
 }
@@ -44,5 +47,96 @@ button {
 }
 
 button:hover {
-    background-color: #718888;
+    opacity: 40%;
+    /* color: #000000; */
+}
+
+#graaf {
+    margin-top: 40px;
+}
+
+.tase {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+#keskmine {
+    align-items: center;
+}
+
+#sõna-kesk {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+#vasak, #parem {
+    display: flex;
+    gap: 10px;
+}
+
+.sõna-box {
+    padding: 8px 14px;
+    margin: 6px;
+    border-radius: 10px;
+    font-size: 16px;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.16s ease, opacity 0.32s ease;
+}
+
+.sõna-box:hover {
+    transform: scale(1.04);
+    opacity: 0.9;
+}
+
+.hyper {
+    background-color: #FFD8A8;
+    color: #5A3A00;
+}
+
+.holo {
+    background-color: #A8D8FF;
+    color: #003A5A;
+}
+
+.hypo {
+    background-color: #FFF3A8;
+    color: #5A5000;
+}
+
+.mero {
+    background-color: #B8F2B8;
+    color: #1F5A1F;
+}
+
+.syn {
+    background-color: #E0E0E0;
+    color: #333;
+    cursor: default;
+}
+
+#popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #06111180;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#popup-content {
+    background: #CCFFFFF2;
+    color: #193333;
+    padding: 20px 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    text-align: center;
+    font-size: 18px;
 }
