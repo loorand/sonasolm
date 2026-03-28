@@ -13,6 +13,7 @@ window.onload = function() {
 
     document.getElementById("kustuta").onclick = kustutaTäht;
     document.getElementById("jaga").onclick = segaTähed;
+    document.getElementById("esita").onclick = kontrolliVastus;
 };
 
 /**
