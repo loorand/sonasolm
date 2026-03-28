@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="styling.css">
 </head>
 <body>
+    <div id="navbar">
+        <button onclick="avaKodu()">Kodu</button>
+        <button onclick="avaMäng()">Alusta</button>
+        <button onclick="avaÕpetus()">Õpetus</button>
+    </div>
     <h1>Sõnasõlm.</h1>
 
     <div id="koduleht" class="leht">
-        <div class="nupud">
-            <button onclick="avaMäng()">Alusta</button>
-            <button onclick="avaÕpetus()">Õpetus</button>
-        </div>
-
         <h2>Pealkiri</h2>
         <p>Tekst...</p>
     </div>
@@ -24,8 +24,6 @@
     <div id="mänguleht" class="leht" style="display:none">
         <!-- <h2>Mäng</h2> -->
         <!-- <p>Tekst...</p> -->
-
-
         <!-- <h2 id="sõna"></h2> -->
         <!-- <p id="definitsioon"></p> -->
         <div id="graaf">
@@ -38,24 +36,24 @@
             <div id="alumine" class="tase"></div>
         </div>
 
-        <div class="nupud">
+        <div id="tähed-container">
+            <div id="tähed"></div>
+            <div id="tähed-nupud">
+                <div id="jaga" class="täht-box s">Sega</div>
+                <div id="kustuta" class="täht-box s">Kustuta</div>
+            </div>
             <button onclick="uusSõna()">Uus sõna</button>
-            <button onclick="avaKodu()">Kodu</button>
         </div>
     </div>
 
     <div id="popup" style="display:none;">
-        <div id="popup-content"></div>
+        <div id="popup-sisu"></div>
     </div>
 
     <div id="õpetus" class="leht" style="display:none">
         <h2>Õpetus</h2>
         <p>Mängu eesmärk on...</p>
         <p>Näiteks...</p>
-        <div class="nupud">
-            <button onclick="avaKodu()">Kodu</button>
-            <button onclick="avaMäng()">Alusta</button>
-        </div>
     </div>
 
     <script src="script.js"></script>

@@ -1,175 +1,373 @@
-window.onload = avaKodu;
+let andmed = {}; // Andmest failist
+let vastus = ""; // Õige vastus
+let sisend = ""; // Mängija sisend
+let aktiivneSõna = null; // Vastus
+let aktiivsedTähed = []; // Tähed ekraanil
 
+/**
+ * Käivitamisel ava koduleht ja laadi andmestik
+ */
+window.onload = function() {
+    avaKodu();
+    laadiAndmed();
+
+    document.getElementById("kustuta").onclick = kustutaTäht;
+    document.getElementById("jaga").onclick = segaTähed;
+};
+
+/**
+ * Funktsioonid lehtedele
+ */
 function avaKodu() {
-    document.getElementById("koduleht").style.display = "block";
-    document.getElementById("mänguleht").style.display = "none";
-    document.getElementById("õpetus").style.display = "none";
+    kuvaLeht("koduleht");
 }
 
 function avaMäng() {
-    document.getElementById("koduleht").style.display = "none";
-    document.getElementById("mänguleht").style.display = "block";
-    document.getElementById("õpetus").style.display = "none";
-
+    kuvaLeht("mänguleht");
     uusSõna();
 }
 
 function avaÕpetus() {
-    document.getElementById("koduleht").style.display = "none";
-    document.getElementById("mänguleht").style.display = "none";
-    document.getElementById("õpetus").style.display = "block";
+    kuvaLeht("õpetus");
 }
 
-// Laadi sõnad andmestikust
-let andmed = {};
-fetch("relations.json")
-    .then(res => res.json())
-    .then(data => {
-        andmed = data;
-    })
+function kuvaLeht(id) {
+    document.getElementById("koduleht").style.display = "none";
+    document.getElementById("mänguleht").style.display = "none";
+    document.getElementById("õpetus").style.display = "none";
 
+    document.getElementById(id).style.display = "block";
+}
+
+/**
+ * Andmete laadimine failist (antud juhul relations.json)
+ */
+function laadiAndmed() {
+    fetch("relations.json")
+        .then(res => res.json())
+        .then(data => {
+            andmed = data;
+        })
+}
+
+/**
+ * Juhusliku sõna valimine andmestikust
+ * @returns Üks juhuslik sõna (kirje võti)
+ */
 function valiSõna() {
-    const võti = Object.keys(andmed);
+    const sõnastik = Object.keys(andmed);
+    const juhuslik = sõnastik[Math.floor(Math.random() * sõnastik.length)];
 
-    const juhuslik = võti[Math.floor(Math.random() * võti.length)];
-
-    const tähendused = andmed[juhuslik];
-    const kirje = tähendused[Math.floor(Math.random() * tähendused.length)];
+    const kirjed = andmed[juhuslik];
+    const kirje = kirjed[Math.floor(Math.random() * kirjed.length)];
 
     return kirje;
 }
 
-function kuvaSõna(kirje) {
-    document.getElementById("sõna").textContent = kirje.sõna;
-    // document.getElementById("definitsioon").textContent = kirje.tähendus;
-
-    document.getElementById("ülemine").innerHTML = "";
-    document.getElementById("alumine").innerHTML = "";
-    document.getElementById("vasak").innerHTML = "";
-    document.getElementById("parem").innerHTML = "";
-
-    function lisaSõnad(containerId, sõnad, clickable = true) {
-        const container = document.getElementById(containerId);
-        if (!sõnad) return;
-
-        for (let sõna of sõnad) {
-            const div = document.createElement("div");
-            div.className = `sõna-box ${sõna.tüüp}`;
-            div.textContent = sõna.s;
-
-            if (clickable && sõna.d) {
-                div.onclick = (e) => {
-                    // console.log("Click", sõna);
-                    e.stopPropagation();
-                    näitaDef(sõna.s, sõna.d);
-                }
-            }
-
-            container.appendChild(div);
-        }
-    }
-
-    let ülemised = [];
-
-    const hyperKeys = Object.keys(kirje.hüperonüümid || {});
-    const holoKeys = Object.keys(kirje.holonüümid || {});
-
-    if (hyperKeys.length > 0 && holoKeys.length > 0) {
-        const h1 = hyperKeys[Math.floor(Math.random() * hyperKeys.length)];
-        const ho1 = holoKeys[Math.floor(Math.random() * holoKeys.length)];
-        ülemised.push({ s: h1, d: kirje.hüperonüümid[h1], tüüp: "hyper" });
-        ülemised.push({ s: ho1, d: kirje.holonüümid[ho1], tüüp: "holo" });
-    } else {
-        const all = hyperKeys.length > 0 ? hyperKeys : holoKeys;
-        all.sort(() => 0.5 - Math.random());
-        all.slice(0, 2).forEach(sõna => {
-            const tüüp = hyperKeys.includes(sõna) ? "hyper" : "holo";
-            ülemised.push({ s: sõna, d: (hyperKeys.includes(sõna) ? kirje.hüperonüümid[sõna] : kirje.holonüümid[sõna]), tüüp });
-        });
-    }
-
-    let alumised = [];
-
-    const hypoKeys = Object.keys(kirje.hüponüümid || {});
-    const meroKeys = Object.keys(kirje.meronüümid || {});
-
-    if (hypoKeys.length > 0 && meroKeys.length > 0) {
-        const h1 = hypoKeys[Math.floor(Math.random() * hypoKeys.length)];
-        const m1 = meroKeys[Math.floor(Math.random() * meroKeys.length)];
-        alumised.push({ s: h1, d: kirje.hüponüümid[h1], tüüp: "hypo" });
-        alumised.push({ s: m1, d: kirje.meronüümid[m1], tüüp: "mero" });
-    } else {
-        const all = hypoKeys.length > 0 ? hypoKeys : meroKeys;
-        all.sort(() => 0.5 - Math.random());
-        all.slice(0, 2).forEach(sõna => {
-            const tüüp = hypoKeys.includes(sõna) ? "hypo" : "mero";
-            alumised.push({ s: sõna, d: (hypoKeys.includes(sõna) ? kirje.hüponüümid[sõna] : kirje.meronüümid[sõna]), tüüp });
-        });
-    }
-
-    const synKeys = Object.keys(kirje.sünonüümid || {}).sort(() => 0.5 - Math.random()).slice(0, 2);
-    let vasak = [], parem = [];
-
-    if (synKeys.length === 1) {
-        vasak.push({ s: synKeys[0], d: "", tüüp: "syn" });
-    } else if (synKeys.length === 2) {
-        vasak.push({ s: synKeys[0], d: "", tüüp: "syn" });
-        parem.push({ s: synKeys[1], d: "", tüüp: "syn" });
-    }
-
-    lisaSõnad("vasak", vasak, false);
-    lisaSõnad("parem", parem, false);
-
-    lisaSõnad("ülemine", ülemised, true);
-    lisaSõnad("alumine", alumised, true);
-}
-
-function valiKaks(obj1, obj2) {
-    const arr1 = Object.entries(obj1 || {});
-    const arr2 = Object.entries(obj2 || {});
-
-    let tulemus = [];
-
-    if (arr1.length > 0 && arr2.length > 0) {
-        tulemus.push(arr1[Math.floor(Math.random() * arr1.length)]);
-        tulemus.push(arr2[Math.floor(Math.random() * arr2.length)]);
-    } else {
-        const all = arr1.length > 0 ? arr1 : arr2;
-        tulemus = all
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 2);
-    }
-
-    return Object.fromEntries(tulemus);
-}
-
-function valiÜks(obj) {
-    const arr = Object.entries(obj || {});
-    if (arr.length === 0) return [];
-    return [arr[Math.floor(Math.random() * arr.length)]];
-}
-
+/**
+ * Sõna määramine ja kuvamine
+ * @returns Mitte midagi, kui andmestikust ei leitud sõna
+ */
 function uusSõna() {
     if (Object.keys(andmed).length === 0) {
-        console.log("Ei saadud uut sõna");
+        console.log("Ei leitud uut sõna");
         return;
     }
 
-    const kirje = valiSõna();
-    kuvaSõna(kirje);
+    kuvaSõna(valiSõna());
 }
 
-function näitaDef(sõna, definitsioon) {
+
+/**
+ * Sõna ja selle juurde kuuluva graafi kuvamine
+ * @param {*} kirje 
+ */
+function kuvaSõna(kirje) {
+    // document.getElementById("sõna").textContent = kirje.sõna;
+    // document.getElementById("definitsioon").textContent = kirje.tähendus;
+    vastus = kirje.sõna;
+    sisend = "";
+    aktiivneSõna = kirje;
+
+    uuendaLünk();
+    looTähed();
+    tühjendaGraaf()
+
+    lisaSõnad("ülemine", looÜlemised(kirje));
+    lisaSõnad("alumine", looAlumised(kirje));
+
+    const syn = looSünonüümid(kirje);
+    lisaSõnad("vasak", syn.vasak, false);
+    lisaSõnad("parem", syn.parem, false);
+}
+
+/**
+ * Graafi tühjendamine uue sõna jaoks
+ */
+function tühjendaGraaf() {
+    ["ülemine", "alumine", "vasak", "parem"].forEach(id => {
+        document.getElementById(id).innerHTML = "";
+    });
+}
+
+/**
+ * Sõnade lisamine elementi
+ * @param {*} containerId 
+ * @param {*} sõnad 
+ * @param {*} clickable 
+ * @returns 
+ */
+function lisaSõnad(containerId, sõnad, clickable = true) {
+    const container = document.getElementById(containerId);
+    if (!sõnad) return;
+
+    for (let sõna of sõnad) {
+        const div = document.createElement("div");
+        div.className = `sõna-box ${sõna.tüüp}`;
+        div.textContent = sõna.s;
+
+        // Klikkides sõnale näita definitsiooni
+        if (clickable && sõna.d) {
+            div.onclick = (e) => {
+                // console.log("Click", sõna);
+                e.stopPropagation();
+                näitaDefinitsioon(sõna.s, sõna.d);
+            }
+        }
+
+        container.appendChild(div);
+    }
+}
+
+/**
+ * Hüperonüümi ja holonüümi valimine
+ * @param {*} kirje 
+ * @returns Kaks hüperonüümi või 1 hüperonüüm ja 1 holonüüm
+ */
+function looÜlemised(kirje) {
+    return valiKaks(
+        kirje.hüperonüümid,
+        kirje.holonüümid,
+        "hyper",
+        "holo"
+    );
+}
+
+/**
+ * Hüponüümi ja meronüümi valimine
+ * @param {*} kirje 
+ * @returns Kaks hüponüümi või 1 hüponüüm ja 1 meronüüm
+ */
+function looAlumised(kirje) {
+    return valiKaks(
+        kirje.hüponüümid,
+        kirje.meronüümid,
+        "hypo",
+        "mero"
+    );
+}
+
+/**
+ * Sünonüümide valimine (max 2, juhuslik)
+ * @param {*} kirje 
+ * @returns Kaks sünonüümi (vasak ja parem)
+ */
+function looSünonüümid(kirje) {
+    const syn = Object.keys(kirje.sünonüümid || {}).sort(() => 0.5 - Math.random()).slice(0, 2);
+
+    return {
+        vasak: syn[0] ? [{ s: syn[0], d: "", tüüp: "syn" }] : [],
+        parem: syn[1] ? [{ s: syn[1], d: "", tüüp: "syn" }] : []
+    };
+}
+
+/**
+ * Kahe elemendi valimine kahest objektist (kaks sõna võtmesõna seostest)
+ * @param {*} obj1 
+ * @param {*} obj2 
+ * @param {*} tüüp1 
+ * @param {*} tüüp2 
+ * @returns Kaks seotud sõna
+ */
+function valiKaks(obj1, obj2, tüüp1, tüüp2) {
+    const keys1 = Object.keys(obj1 || {});
+    const keys2 = Object.keys(obj2 || {});
+
+    let tulemus = [];
+
+    if (keys1.length > 0 && keys2.length > 0) {
+        const key1 = juhuslik(keys1);
+        const key2 = juhuslik(keys2);
+
+        tulemus.push({
+            s: key1,
+            d: obj1[key1],
+            tüüp: tüüp1
+        });
+
+        tulemus.push({
+            s: key2,
+            d: obj2[key2],
+            tüüp: tüüp2
+        });
+    } else {
+        const all = keys1.length ? keys1 : keys2;
+        all.sort(() => 0.5 - Math.random())
+            .slice(0, 2)
+            .forEach(sõna => {
+                const onEsimeses = keys1.includes(sõna);
+                tulemus.push({
+                    s: sõna,
+                    d: onEsimeses ? obj1[sõna] : obj2[sõna],
+                    tüüp: onEsimeses ? tüüp1 : tüüp2
+                });
+            });
+    }
+
+    return tulemus;
+}
+
+/**
+ * Juhuslikkuse abifunktsioon
+ * @param {*} arr 
+ * @returns Juhuslik väärtus
+ */
+function juhuslik(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/**
+ * Definitsiooni näitamise abifunktsioon
+ * @param {*} sõna 
+ * @param {*} definitsioon 
+ */
+function näitaDefinitsioon(sõna, definitsioon) {
     const popup = document.getElementById("popup");
-    const content = document.getElementById("popup-content");
+    const content = document.getElementById("popup-sisu");
 
     content.innerHTML = `<strong>${sõna}</strong><br><br>${definitsioon || "Definitsioon puudub"}`;
     popup.style.display = "flex";
 }
 
+/**
+ * Sulgeb hüpikakna hiirevajutusel
+ */
 document.addEventListener("click", function (e) {
     const popup = document.getElementById("popup");
     if (popup.style.display === "flex") {
         popup.style.display = "none";
     }
 });
+
+/**
+ * Klaviatuuri sisendi töötlemise abifunktsioon
+ */
+document.addEventListener("keydown", function(e) {
+    if (document.getElementById("mänguleht").style.display !== "block") return;
+
+    if (e.key === "Delete") {
+        sisend = sisend.slice(0, -1);
+    } 
+    else if (e.key.length === 1) {
+        const täht = e.key.toLowerCase();
+        if (aktiivsedTähed.includes(täht) && sisend.length < vastus.length) {
+            sisend += täht;
+        }
+    }
+    else if (e.key === "Enter") {
+        kontrolliVastus();
+    }
+
+    uuendaLünk();
+});
+
+/**
+ * Pakutud vastuse kontroll ja otsus
+ */
+function kontrolliVastus() {
+    if (sisend === vastus) {
+        näitaPopup(
+            `<strong>Õige!</strong><br><br>${aktiivneSõna.tähendus || "Definitsioon puudub"}`,
+            true
+        );
+    } else {
+        näitaPopup("Vale! Õige sõna oli: " + vastus, false);
+    }
+}
+
+/**
+ * Hüpikakna stiili määramine ja kuvamine
+ * @param {*} tekst 
+ * @param {*} success 
+ */
+function näitaPopup(tekst, success = null) {
+    const popup = document.getElementById("popup");
+    const content = document.getElementById("popup-sisu");
+
+    let värv = "";
+    if (success === true) värv = "color: green;";
+    if (success === false) värv = "color: red;";
+
+    content.innerHTML = `<div style="${värv}">${tekst}</div>`;
+    popup.style.display = "flex";
+}
+
+/**
+ * Tähtede sektsiooni loomine
+ * TODO: Valida suvaliselt lisanduvad tähed sageduse järgi?
+ */
+function looTähed() {
+    const tähestik = "abcdefghijklmnopqrstuvwxyzõäöü";
+    let tähed = Array.from(new Set(vastus.split("")));
+
+    while (tähed.length < new Set(vastus).size + 3) {
+        const rand = tähestik[Math.floor(Math.random() * tähestik.length)];
+        if (!tähed.includes(rand)) {
+            tähed.push(rand);
+        }
+    }
+
+    aktiivsedTähed = tähed;
+    segaTähed();
+}
+
+/**
+ * Abifunktsioon alumise sektsiooni tähtede segamiseks
+ */
+function segaTähed() {
+    const container = document.getElementById("tähed");
+    container.innerHTML = "";
+
+    const segatud = [...aktiivsedTähed].sort(() => Math.random() - 0.5);
+
+    for (let täht of segatud) {
+        const div = document.createElement("div");
+        div.className = "täht-box";
+        div.textContent = täht;
+
+        div.onclick = () => {
+            if (sisend.length < vastus.length) {
+                sisend += täht;
+                uuendaLünk();
+            }
+        };
+
+        container.appendChild(div);
+    }
+}
+
+/**
+ * Tähe kustutamine
+ */
+function kustutaTäht() {
+    sisend = sisend.slice(0, -1);
+    uuendaLünk(); 
+}
+
+/**
+ * Vastuse lünga uuendamine
+ */
+function uuendaLünk() {
+    const tekst = sisend.padEnd(vastus.length, "_");
+    document.getElementById("sõna").textContent = tekst;
+}
