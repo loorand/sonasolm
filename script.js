@@ -252,11 +252,9 @@ function näitaDefinitsioon(sõna, definitsioon) {
 /**
  * Sulgeb hüpikakna hiirevajutusel
  */
-document.addEventListener("click", function (e) {
-    const popup = document.getElementById("popup");
-    if (popup.style.display === "flex") {
+const popup = document.getElementById("popup");
+    popup.addEventListener("click", () => {
         popup.style.display = "none";
-    }
 });
 
 /**
