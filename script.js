@@ -316,10 +316,18 @@ function näitaPopup(tekst, success = null) {
  * TODO: Valida suvaliselt lisanduvad tähed sageduse järgi?
  */
 function looTähed() {
-    const tähestik = "abcdefghijklmnopqrstuvwxyzõäöü";
-    let tähed = Array.from(new Set(vastus.split("")));
+    // const tähestik = "abcdefghijklmnopqrstuvwxyzõäöü";
+    const tähestik = "abdefghijklmnoprstuvõäöü";
+    let tähed = vastus.split("");
 
-    while (tähed.length < new Set(vastus).size + 3) {
+    let lisatähed = 3;
+    if (vastus.length >= 10) lisatähed = 2;
+    if (vastus.length >= 15) lisatähed = 1;
+
+    let tähevariandid = vastus.length + lisatähed;
+    if (tähevariandid % 2 !== 0) tähevariandid--;
+
+    while (tähed.length < tähevariandid) {
         const rand = tähestik[Math.floor(Math.random() * tähestik.length)];
         if (!tähed.includes(rand)) {
             tähed.push(rand);
@@ -338,6 +346,8 @@ function segaTähed() {
     container.innerHTML = "";
 
     const segatud = [...aktiivsedTähed].sort(() => Math.random() - 0.5);
+    const veerud = aktiivsedTähed.length / 2;
+    container.style.gridTemplateColumns = `repeat(${veerud}, 48px)`;
 
     for (let täht of segatud) {
         const div = document.createElement("div");
