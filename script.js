@@ -3,6 +3,8 @@ let vastus = ""; // Õige vastus
 let sisend = ""; // Mängija sisend
 let aktiivneSõna = null; // Vastus
 let aktiivsedTähed = []; // Tähed ekraanil
+let popupLahti = false;
+let mängKäib = false;
 
 /**
  * Käivitamisel ava koduleht ja laadi andmestik
@@ -20,16 +22,42 @@ window.onload = function() {
  * Funktsioonid lehtedele
  */
 function avaKodu() {
+    const popup = document.getElementById("popup");
+
+    if (popupLahti) {
+        popup.style.display = "none";
+        popupLahti = false;
+    }
+
     kuvaLeht("koduleht");
 }
 
 function avaMäng() {
     kuvaLeht("mänguleht");
-    uusSõna();
+    if (!mängKäib) {
+        uusSõna();
+        mängKäib = true;
+    }
 }
 
 function avaÕpetus() {
-    kuvaLeht("õpetus");
+    // kuvaLeht("õpetus");
+    const popup = document.getElementById("popup");
+    const content = document.getElementById("popup-sisu");
+
+    if (popupLahti) {
+        popup.style.display = "none";
+        popupLahti = false;
+        return;
+    }
+
+    content.innerHTML = `
+        Mängu eesmärk on leida õige sõna vastavalt graafile.<br><br>
+        ...
+    `;
+
+    document.getElementById("popup").style.display = "flex";
+    popupLahti = true;
 }
 
 function kuvaLeht(id) {
@@ -38,6 +66,17 @@ function kuvaLeht(id) {
     document.getElementById("õpetus").style.display = "none";
 
     document.getElementById(id).style.display = "block";
+
+    const koduNupp = document.getElementById("koduNupp");
+    const õpetusNupp = document.getElementById("õpetusNupp");
+
+    if (id === "koduleht") {
+        koduNupp.style.display = "none";
+        õpetusNupp.style.display = "none";
+    } else {
+        koduNupp.style.display = "inline-block";
+        õpetusNupp.style.display = "inline-block";
+    }
 }
 
 /**
@@ -256,6 +295,7 @@ function näitaDefinitsioon(sõna, definitsioon) {
 const popup = document.getElementById("popup");
     popup.addEventListener("click", () => {
         popup.style.display = "none";
+        popupLahti = false;
 });
 
 /**

@@ -9,16 +9,26 @@
     <link rel="stylesheet" href="styling.css">
 </head>
 <body>
-    <div id="navbar">
-        <button onclick="avaKodu()">Kodu</button>
-        <button onclick="avaMäng()">Alusta</button>
-        <button onclick="avaÕpetus()">Õpetus</button>
-    </div>
+    <!-- <div id="navbar"> -->
+    <button class="põhinupud" id="koduNupp" onclick="avaKodu()" style="display:none;">←</button>
+    <button class="põhinupud" id="õpetusNupp" onclick="avaÕpetus()">?</button>
+        <!-- <button onclick="avaMäng()">Alusta</button> -->
+        <!-- <button onclick="avaÕpetus()">Õpetus</button> -->
+    <!-- </div> -->
     <!-- <h1>Sõnasõlm.</h1> -->
 
     <div id="koduleht" class="leht">
-        <h2>Pealkiri</h2>
-        <p>Tekst...</p>
+        <h2>Sõnasõlm</h2>
+        <p>Kas tunned sõnu?</p>
+        
+        <div id="mängud">
+            <button onclick="avaMäng()">Kõik sõnad</button>
+            <button onclick="avaÕpetus('m1')">?</button>
+            <button disabled>---</button>
+            <button onclick="avaÕpetus('m2')">?</button>
+            <button disabled>---</button>
+            <button onclick="avaÕpetus('m3')">?</button>
+        </div>
     </div>
 
     <div id="mänguleht" class="leht" style="display:none">
