@@ -40,6 +40,12 @@ function avaMäng() {
     }
 }
 
+const juhised = {
+    n: "",
+    a: "",
+    v: ""
+};
+
 function avaÕpetus() {
     // kuvaLeht("õpetus");
     const popup = document.getElementById("popup");
@@ -52,13 +58,58 @@ function avaÕpetus() {
     }
 
     content.innerHTML = `
-        Mängu eesmärk on leida õige sõna vastavalt graafile.<br><br>
-        ...
+        <strong>
+            Leia puuduv sõna graafist.<br>
+            Igale mõistatusele on üks lahendus.<br><br>
+        </strong>
+        <strong>Graaf</strong><br>
+
+        <div id="juhis-nupud">
+            <button onclick="näitaJuhist(1)">Nimisõnad</button>
+            <button onclick="näitaJuhist(2)">Omadussõnad</button>
+            <button onclick="näitaJuhist(3)">Tegusõnad</button>
+        </div>
+
+        <div id="juhis-sisu" style="margin-top:10px;"></div><br>
+
+        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
+        <strong>Täheruudustik</strong><br>
+        Graafi all on täheruudustik lahendussõna moodustamiseks.
+        Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
     `;
 
     document.getElementById("popup").style.display = "flex";
     popupLahti = true;
 }
+
+function näitaJuhist(sõnaliik) {
+    const container = document.getElementById("juhis-sisu");
+    let sisu = "";
+
+    if (sõnaliik === 1) sisu = juhisTekstid.nimisõna;
+    else if (sõnaliik === 2) sisu = juhisTekstid.omadussõna;
+    else if (sõnaliik === 3) sisu = juhisTekstid.tegusõna;
+
+    container.innerHTML = `<p>${sisu}</p>`;
+}
+
+const juhisTekstid = {
+    nimisõna: `
+        <p>
+            <strong>Nimisõna</strong>
+        </p>
+    `,
+    omadussõna: `
+        <p>
+            <strong>Omadussõna</strong>
+        </p>
+    `,
+    tegusõna: `
+        <p>
+            <strong>Tegusõna</strong>
+        </p>
+    `
+};
 
 function kuvaLeht(id) {
     document.getElementById("koduleht").style.display = "none";
@@ -113,6 +164,7 @@ function uusSõna() {
         console.log("Ei leitud uut sõna");
         return;
     }
+    document.getElementById("järgmine-nupp").style.display = "none";
 
     kuvaSõna(valiSõna());
 }
@@ -293,9 +345,17 @@ function näitaDefinitsioon(sõna, definitsioon) {
  * Sulgeb hüpikakna hiirevajutusel
  */
 const popup = document.getElementById("popup");
-    popup.addEventListener("click", () => {
-        popup.style.display = "none";
-        popupLahti = false;
+popup.addEventListener("click", () => {
+    popup.style.display = "none";
+    popupLahti = false;
+});
+
+/**
+ * Takistab hüpikaknas olevale nupule vajutades hüpikakna sulgumise
+ */
+const popupsisu = document.getElementById("popup-sisu");
+popupsisu.addEventListener("click", (e) => {
+    e.stopPropagation();
 });
 
 /**
@@ -329,6 +389,7 @@ function kontrolliVastus() {
             `<strong>Õige!</strong><br><br>${aktiivneSõna.tähendus || "Definitsioon puudub"}`,
             true
         );
+        document.getElementById("järgmine-nupp").style.display = "inline-block";
     } else {
         näitaPopup("Vale! Õige sõna oli: " + vastus, false);
     }

@@ -42,7 +42,7 @@ button {
 button:hover {
     opacity: 50%;
     transition: border-radius 0.30s ease, opacity 0.30s ease;
-    border-radius: 27px;
+    border-radius: 23px;
 }
 
 .põhinupud {
@@ -52,8 +52,8 @@ button:hover {
     border: 2px solid #8CDDDD88;
     color: #8CDDDD;
     font-size: 30px;
-    min-width: 54px;
-    min-height: 54px;
+    min-width: 46px;
+    min-height: 46px;
 }
 
 .põhinupud:hover {
@@ -68,17 +68,18 @@ button:hover {
 }
 
 #õpetusNupp {
-    top: 84px;
+    top: 80px;
     right: 30px;
 }
 
 #mängud {
     margin-top: 80px;
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     gap: 10px 20px;
     align-items: center;
+    margin-bottom: 100px;
 }
 
 #mängud button {
@@ -86,7 +87,14 @@ button:hover {
     min-height: 50px;
 }
 
-#mängud button:nth-child(2n) {
+#juhend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#juhend button {
     opacity: 70%;
     min-width: 40px;
     min-height: 40px;
@@ -95,7 +103,7 @@ button:hover {
     color: #8CDDDD;
 }
 
-#mängud button:nth-child(2n):hover {
+#juhend button:hover {
     opacity: 100%;
     background-color: #8CDDDD;
     color: #193333;
@@ -111,9 +119,9 @@ h2 {
     margin-top: 60px;
 }
 
-/* p {
-    margin-top: 0px;
-} */
+p {
+    margin: 0;
+}
 
 .leht {
     margin-top: 40px;

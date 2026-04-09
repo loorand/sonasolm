@@ -19,15 +19,20 @@
 
     <div id="koduleht" class="leht">
         <h2>Sõnasõlm</h2>
-        <p>Kas tunned sõnu?</p>
+        <p>Kas tunned sõnavara?</p>
         
         <div id="mängud">
             <button onclick="avaMäng()">Kõik sõnad</button>
-            <button onclick="avaÕpetus('m1')">?</button>
+            <!-- <button onclick="avaÕpetus('n')">?</button> -->
             <button disabled>---</button>
-            <button onclick="avaÕpetus('m2')">?</button>
+            <!-- <button onclick="avaÕpetus('a')">?</button> -->
             <button disabled>---</button>
-            <button onclick="avaÕpetus('m3')">?</button>
+            <!-- <button onclick="avaÕpetus('v')">?</button> -->
+        </div>
+        
+        <div id="juhend">
+            <p>Mängu eesmärk on leida õige sõna vastavalt graafile.</p>
+            <button onclick="avaÕpetus()">?</button>
         </div>
     </div>
 
@@ -53,7 +58,7 @@
                 <div id="jaga" class="täht-box s">Sega</div>
                 <div id="esita" class="täht-box s">Esita</div>
             </div>
-            <button onclick="uusSõna()">Uus sõna</button>
+            <button id="järgmine-nupp" style="display:none" onclick="uusSõna()">Uus sõna</button>
         </div>
     </div>
 
