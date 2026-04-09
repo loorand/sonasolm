@@ -63,6 +63,7 @@ function avaÕpetus() {
             Igale mõistatusele on üks lahendus.<br><br>
         </strong>
         <strong>Graaf</strong><br>
+        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
 
         <div id="juhis-nupud">
             <button onclick="näitaJuhist(1)">Nimisõnad</button>
@@ -71,10 +72,9 @@ function avaÕpetus() {
         </div>
 
         <div id="juhis-sisu" style="margin-top:10px;"></div><br>
-
-        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
+        
         <strong>Täheruudustik</strong><br>
-        Graafi all on täheruudustik lahendussõna moodustamiseks.
+        Graafi all on täheruudustik lahendussõna moodustamiseks.<br>
         Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
     `;
 
