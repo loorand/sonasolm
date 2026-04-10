@@ -1,8 +1,10 @@
 let andmed = {}; // Andmest failist
 let vastus = ""; // Õige vastus
-let sisend = ""; // Mängija sisend
+let sisend = []; // Mängija sisend
 let aktiivneSõna = null; // Vastus
 let aktiivsedTähed = []; // Tähed ekraanil
+let praegusedTähed = [];
+let kasutatudTähed = new Set();
 let popupLahti = false;
 let mängKäib = false;
 
@@ -62,6 +64,7 @@ function avaÕpetus() {
             Leia puuduv sõna graafist.<br>
             Igale mõistatusele on üks lahendus.<br><br>
         </strong>
+<<<<<<< Updated upstream
         <strong>Graaf</strong><br>
         Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
 
@@ -73,6 +76,24 @@ function avaÕpetus() {
 
         <div id="juhis-sisu" style="margin-top:10px;"></div><br>
         
+=======
+
+        <strong>
+            Graaf
+        </strong><br>
+
+        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
+        Graafi kuju ja hierarhia sõltub sõnaliigist.<br>
+
+        <div id="juhis-nupud">
+            <button onclick="näitaJuhist(1, this)">Nimisõnad</button>
+            <button onclick="näitaJuhist(2, this)">Omadussõnad</button>
+            <button onclick="näitaJuhist(3, this)">Tegusõnad</button>
+        </div>
+
+        <div id="juhis-sisu" style="margin-top:10px;"></div><br><br>
+
+>>>>>>> Stashed changes
         <strong>Täheruudustik</strong><br>
         Graafi all on täheruudustik lahendussõna moodustamiseks.<br>
         Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
@@ -82,7 +103,7 @@ function avaÕpetus() {
     popupLahti = true;
 }
 
-function näitaJuhist(sõnaliik) {
+function näitaJuhist(sõnaliik, nupp) {
     const container = document.getElementById("juhis-sisu");
     let sisu = "";
 
@@ -91,6 +112,10 @@ function näitaJuhist(sõnaliik) {
     else if (sõnaliik === 3) sisu = juhisTekstid.tegusõna;
 
     container.innerHTML = `<p>${sisu}</p>`;
+
+    const nupud = document.querySelectorAll("#juhis-nupud button");
+    nupud.forEach(n => n.classList.remove("active"));
+    nupp.classList.add("active");
 }
 
 const juhisTekstid = {
@@ -178,7 +203,8 @@ function kuvaSõna(kirje) {
     // document.getElementById("sõna").textContent = kirje.sõna;
     // document.getElementById("definitsioon").textContent = kirje.tähendus;
     vastus = kirje.sõna;
-    sisend = "";
+    sisend = [];
+    kasutatudTähed = new Set();
     aktiivneSõna = kirje;
 
     uuendaLünk();
@@ -365,15 +391,22 @@ document.addEventListener("keydown", function(e) {
     if (document.getElementById("mänguleht").style.display !== "block") return;
 
     if (e.key === "Delete") {
-        sisend = sisend.slice(0, -1);
-    } 
-    else if (e.key.length === 1) {
+        const kustutatud = sisend.pop();
+        if (kustutatud) kasutatudTähed.delete(kustutatud.id);
+        uuendaLünk();
+        näitaTähed(praegusedTähed);
+        return;
+    } else if (e.key.length === 1) {
         const täht = e.key.toLowerCase();
-        if (aktiivsedTähed.includes(täht) && sisend.length < vastus.length) {
-            sisend += täht;
+        const tähenupp = aktiivsedTähed.find(t => t.täht === täht && !kasutatudTähed.has(t.id));
+
+        if (tähenupp && sisend.length < vastus.length) {
+        sisend.push(tähenupp);
+        kasutatudTähed.add(tähenupp.id);
+        uuendaLünk();
+        näitaTähed(praegusedTähed);
         }
-    }
-    else if (e.key === "Enter") {
+    } else if (e.key === "Enter") {
         kontrolliVastus();
     }
 
@@ -384,7 +417,9 @@ document.addEventListener("keydown", function(e) {
  * Pakutud vastuse kontroll ja otsus
  */
 function kontrolliVastus() {
-    if (sisend === vastus) {
+    const sisendString = sisend.map(t => t.täht).join("");
+
+    if (sisendString === vastus) {
         näitaPopup(
             `<strong>Õige!</strong><br><br>${aktiivneSõna.tähendus || "Definitsioon puudub"}`,
             true
@@ -435,30 +470,41 @@ function looTähed() {
         }
     }
 
-    aktiivsedTähed = tähed;
+    let loendur = 0;
+    aktiivsedTähed = tähed.map(t => ({
+        täht: t,
+        id: loendur++
+    }));
+
+    praegusedTähed = [...aktiivsedTähed];
     segaTähed();
 }
 
 /**
  * Abifunktsioon alumise sektsiooni tähtede segamiseks
  */
-function segaTähed() {
+function näitaTähed(tähelist) {
     const container = document.getElementById("tähed");
     container.innerHTML = "";
 
-    const segatud = [...aktiivsedTähed].sort(() => Math.random() - 0.5);
     const veerud = aktiivsedTähed.length / 2;
     container.style.gridTemplateColumns = `repeat(${veerud}, 48px)`;
 
-    for (let täht of segatud) {
+    for (let tähenupp of tähelist) {
         const div = document.createElement("div");
         div.className = "täht-box";
-        div.textContent = täht;
+        div.textContent = tähenupp.täht;
+
+        if (kasutatudTähed.has(tähenupp.id)) {
+            div.classList.add("kasutatud");
+        }
 
         div.onclick = () => {
-            if (sisend.length < vastus.length) {
-                sisend += täht;
+            if (sisend.length < vastus.length && !kasutatudTähed.has(tähenupp.id)) {
+                sisend.push(tähenupp);
+                kasutatudTähed.add(tähenupp.id);
                 uuendaLünk();
+                näitaTähed(tähelist);
             }
         };
 
@@ -466,18 +512,27 @@ function segaTähed() {
     }
 }
 
+function segaTähed() {
+    praegusedTähed = [...aktiivsedTähed].sort(() => Math.random() - 0.5);
+    näitaTähed(praegusedTähed);
+}
+
 /**
  * Tähe kustutamine
  */
 function kustutaTäht() {
-    sisend = sisend.slice(0, -1);
-    uuendaLünk(); 
+    const kustutatud = sisend.pop();
+
+    if (kustutatud) kasutatudTähed.delete(kustutatud.id);
+
+    uuendaLünk();
+    näitaTähed(praegusedTähed);
 }
 
 /**
  * Vastuse lünga uuendamine
  */
 function uuendaLünk() {
-    const tekst = sisend.padEnd(vastus.length, "_");
+    const tekst = sisend.map(t => t.täht).join("").padEnd(vastus.length, "_");
     document.getElementById("sõna").textContent = tekst;
 }
