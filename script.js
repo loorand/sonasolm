@@ -64,20 +64,6 @@ function avaÕpetus() {
             Leia puuduv sõna graafist.<br>
             Igale mõistatusele on üks lahendus.<br><br>
         </strong>
-<<<<<<< Updated upstream
-        <strong>Graaf</strong><br>
-        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
-
-        <div id="juhis-nupud">
-            <button onclick="näitaJuhist(1)">Nimisõnad</button>
-            <button onclick="näitaJuhist(2)">Omadussõnad</button>
-            <button onclick="näitaJuhist(3)">Tegusõnad</button>
-        </div>
-
-        <div id="juhis-sisu" style="margin-top:10px;"></div><br>
-        
-=======
-
         <strong>
             Graaf
         </strong><br>
@@ -93,7 +79,6 @@ function avaÕpetus() {
 
         <div id="juhis-sisu" style="margin-top:10px;"></div><br><br>
 
->>>>>>> Stashed changes
         <strong>Täheruudustik</strong><br>
         Graafi all on täheruudustik lahendussõna moodustamiseks.<br>
         Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
