@@ -67,6 +67,11 @@ button:hover {
     right: 30px;
 }
 
+#nulliNupp {
+    top: 140px;
+    right: 30px;
+}
+
 #mängud {
     margin-top: 80px;
     display: flex;
@@ -223,7 +228,6 @@ p {
 
 #elud, #skoor {
     display: inline-flex;
-    width: auto;
     white-space: nowrap;
     font-size: 24px;
     letter-spacing: 4px;
@@ -267,7 +271,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #8CDDDD;
+    background-color: #CCFFFF;
     color: #193333;
     width: var(--ruut);
     height: var(--ruut);
@@ -300,7 +304,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #BCBDBF;
+    background-color: #8CDDDD;
     color: #142828;
     font-size: 20px;
     width: var(--ruut);
@@ -310,7 +314,7 @@ p {
 #esita {
     height: calc((var(--ruut) * 2) + var(--vahe));
     min-width: var(--ruut);
-    background-color: #AAD868;
+    background-color: #8CDDDD;
 }
 
 #popup {

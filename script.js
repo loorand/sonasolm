@@ -132,13 +132,16 @@ function kuvaLeht(id) {
 
     const koduNupp = document.getElementById("koduNupp");
     const õpetusNupp = document.getElementById("õpetusNupp");
+    const nulliNupp = document.getElementById("nulliNupp");
 
     if (id === "koduleht") {
         koduNupp.style.display = "none";
         õpetusNupp.style.display = "none";
+        nulliNupp.style.display = "none";
     } else {
         koduNupp.style.display = "inline-block";
         õpetusNupp.style.display = "inline-block";
+        nulliNupp.style.display = "inline-block";
     }
 }
 
@@ -151,6 +154,38 @@ function laadiAndmed() {
         .then(data => {
             andmed = data;
         })
+}
+
+function nulliMäng() {
+    const popup = document.getElementById("popup");
+    const content = document.getElementById("popup-sisu");
+
+    content.innerHTML = `
+        Kas oled kindel, et soovid alustada algusest?<br><br>
+        <button onclick="nulliSeis()">Alusta uuesti</button>
+    `;
+
+    popup.style.display = "flex";
+    popupLahti = true;
+}
+
+function nulliSeis() {
+    sulgePopup();
+
+    elud = 5;
+    skoor = 0;
+
+    sisend = [];
+    kasutatudTähed = new Set();
+    aktiivneSõna = null;
+    vastus = "";
+
+    muudaElud();
+    muudaSkoor();
+
+    mängKäib = false;
+
+    uusSõna();
 }
 
 /**
@@ -444,9 +479,9 @@ function kontrolliVastus() {
 
     if (elud <= 0) {
         näitaPopup(
-            `Mäng läbi!<br><br>
+            `Mäng läbi!<br>
+            Leidsid <strong>${skoor}</strong> õiget sõna.<br><br>
             Õige sõna oli <strong>${vastus}</strong>.<br><br>
-            Skoor: <strong>${skoor}</strong><br><br>
             <button onclick="nulliSeis()">Alusta uuesti</button>`,
             false
         );
@@ -463,20 +498,6 @@ function eludAnim() {
     setTimeout(() => {
         elu.classList.remove("flash");
     }, 400);
-}
-
-function nulliSeis() {
-    elud = 5;
-    skoor = 0;
-    sisend = [];
-    kasutatudTähed = new Set();
-
-    muudaElud();
-    muudaSkoor();
-    uusSõna();
-
-    document.getElementById("popup").style.display = "none";
-    popupLahti = false;
 }
 
 /**
