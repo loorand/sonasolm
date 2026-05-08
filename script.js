@@ -7,6 +7,7 @@ let praegusedTähed = []; // Tähtede visuaalne järjekord renderdamiseks
 let kasutatudTähed = new Set(); // Tähtede ID-d
 let popupLahti = false; // Hüpikaken avatud?
 let mängKäib = false; // Mäng käivitatud?
+let mängLäbi = false; // Mäng lõppenud?
 let elud = 5; // Mitu eksimust mängijal lubatud?
 let skoor = 0; // Õiged vastused
 let lahendatud = false;
@@ -185,6 +186,7 @@ function nulliSeis() {
     muudaSkoor();
 
     mängKäib = false;
+    mängLäbi = false;
 
     uusSõna();
 }
@@ -214,7 +216,6 @@ function uusSõna() {
     }
     document.getElementById("järgmine-nupp").style.display = "none";
     lahendatud = false;
-    elud = 5;
     muudaElud();
 
     kuvaSõna(valiSõna());
@@ -430,6 +431,7 @@ popupsisu.addEventListener("click", (e) => {
  */
 document.addEventListener("keydown", function(e) {
     if (document.getElementById("mänguleht").style.display !== "block") return;
+    if (mängLäbi) return;
 
     if (e.key === "Delete") {
         const kustutatud = sisend.pop();
@@ -458,6 +460,7 @@ document.addEventListener("keydown", function(e) {
  * Pakutud vastuse kontroll ja otsus
  */
 function kontrolliVastus() {
+    if (mängLäbi) return;
     const sisendString = sisend.map(t => t.täht).join("");
 
     if (lahendatud && sisendString === vastus) {
@@ -492,6 +495,7 @@ function kontrolliVastus() {
     }
 
     if (elud <= 0) {
+        mängLäbi = true;
         näitaPopup(
             `Mäng läbi!<br>
             Leidsid <strong>${skoor}</strong> õiget sõna.<br><br>
