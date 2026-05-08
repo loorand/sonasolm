@@ -155,7 +155,7 @@ p {
 
 #keskmine {
     align-items: center;
-    font-size: 28px;
+    font-size: 24px;
 }
 
 #sõna {
@@ -177,7 +177,7 @@ p {
     padding: 8px 14px;
     margin: 6px;
     border-radius: 8px;
-    font-size: 22px;
+    font-size: 20px;
     display: inline-block;
     cursor: pointer;
     transition: border-radius 0.15s ease, opacity 0.15s ease;
@@ -213,6 +213,12 @@ p {
     background-color: #E0E0E0;
     color: #333333;
     cursor: default;
+}
+
+#järgmine-nupp {
+    position: fixed;
+    bottom: 190px;
+    justify-self: center;
 }
 
 #staatus {
@@ -350,11 +356,11 @@ p {
     }
 
     #keskmine {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .sõna-box {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .tase {

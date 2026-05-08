@@ -212,7 +212,7 @@ function uusSõna() {
         console.log("Ei leitud uut sõna");
         return;
     }
-    // document.getElementById("järgmine-nupp").style.display = "none";
+    document.getElementById("järgmine-nupp").style.display = "none";
     lahendatud = false;
     elud = 5;
     muudaElud();
@@ -484,7 +484,7 @@ function kontrolliVastus() {
             `,
             true
         );
-        // document.getElementById("järgmine-nupp").style.display = "inline-block";
+        document.getElementById("järgmine-nupp").style.display = "inline-block";
     } else {
         elud--;
         muudaElud();
