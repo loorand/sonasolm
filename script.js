@@ -9,6 +9,7 @@ let popupLahti = false; // Hüpikaken avatud?
 let mängKäib = false; // Mäng käivitatud?
 let elud = 5; // Mitu eksimust mängijal lubatud?
 let skoor = 0; // Õiged vastused
+let lahendatud = false;
 
 /**
  * Käivitamisel ava koduleht ja laadi andmestik
@@ -211,7 +212,8 @@ function uusSõna() {
         console.log("Ei leitud uut sõna");
         return;
     }
-    document.getElementById("järgmine-nupp").style.display = "none";
+    // document.getElementById("järgmine-nupp").style.display = "none";
+    lahendatud = false;
     elud = 5;
     muudaElud();
 
@@ -458,9 +460,21 @@ document.addEventListener("keydown", function(e) {
 function kontrolliVastus() {
     const sisendString = sisend.map(t => t.täht).join("");
 
+    if (lahendatud && sisendString === vastus) {
+        näitaPopup(`
+            <strong>Õige!</strong><br><br>
+            ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
+            <button onclick="uusSõna(); sulgePopup();">
+                Uus sõna
+            </button>
+        `, true);
+        return;
+    }
+
     if (sisendString === vastus) {
         skoor++;
         muudaSkoor();
+        lahendatud = true;
         näitaPopup(
             `<strong>Õige!</strong><br><br>
             ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
@@ -470,7 +484,7 @@ function kontrolliVastus() {
             `,
             true
         );
-        document.getElementById("järgmine-nupp").style.display = "inline-block";
+        // document.getElementById("järgmine-nupp").style.display = "inline-block";
     } else {
         elud--;
         muudaElud();
