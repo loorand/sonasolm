@@ -64,7 +64,6 @@ function avaÕpetus() {
             Leia puuduv sõna graafist.<br>
             Igale mõistatusele on üks lahendus.<br><br>
         </strong>
-
         <strong>
             Graaf
         </strong><br>
