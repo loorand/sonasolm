@@ -112,7 +112,7 @@ function avaÕpetus() {
                     meronüüm
                 </div>
             </div>
-            <i><div id="seletus"></div></i>
+            <i><div id="seletus"></div></i><br>
         </div>
 
         <strong>Täheruudustik</strong><br>
@@ -129,6 +129,7 @@ function avaÕpetus() {
 
     document.getElementById("popup").style.display = "flex";
     popupLahti = true;
+    content.scrollTop = 0;
 }
 
 function näitaSeletus(tekst) {

@@ -390,6 +390,9 @@ p {
     max-width: 65%;
     text-align: center;
     font-size: 18px;
+    max-height: 85vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 @media (max-width: 600px) {
