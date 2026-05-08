@@ -68,8 +68,8 @@ function avaÕpetus() {
             Graaf
         </strong><br>
 
-        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
-        Graafi kuju ja hierarhia sõltub sõnaliigist.<br>
+        Sõna värv ja paigutus tähistab selle semantilist suhet lahendussõnaga.<br>
+        Graafi kuju ja hierarhia sõltub sõnaliigist.<br><br>
 
         <div id="juhis-nupud">
             <button onclick="näitaJuhist(1, this)">Nimisõnad</button>
@@ -80,7 +80,7 @@ function avaÕpetus() {
         <div id="juhis-sisu" style="margin-top:10px;"></div><br><br>
 
         <strong>Täheruudustik</strong><br>
-        Graafi all on täheruudustik lahendussõna moodustamiseks.
+        Graafi all on täheruudustik lahendussõna moodustamiseks.<br>
         Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
     `;
 
@@ -406,7 +406,12 @@ function kontrolliVastus() {
 
     if (sisendString === vastus) {
         näitaPopup(
-            `<strong>Õige!</strong><br><br>${aktiivneSõna.tähendus || "Definitsioon puudub"}`,
+            `<strong>Õige!</strong><br><br>
+            ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
+            <button onclick="uusSõna(); sulgePopup();">
+                Uus sõna
+            </button>
+            `,
             true
         );
         document.getElementById("järgmine-nupp").style.display = "inline-block";
@@ -430,6 +435,12 @@ function näitaPopup(tekst, success = null) {
 
     content.innerHTML = `<div style="${värv}">${tekst}</div>`;
     popup.style.display = "flex";
+}
+
+function sulgePopup() {
+    const popup = document.getElementById("popup");
+    popup.style.display = "none";
+    popupLahti = false;
 }
 
 /**
