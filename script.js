@@ -1,12 +1,12 @@
-let andmed = {}; // Andmest failist
-let vastus = ""; // Õige vastus
-let sisend = []; // Mängija sisend
-let aktiivneSõna = null; // Vastus
-let aktiivsedTähed = []; // Tähed ekraanil
-let praegusedTähed = [];
-let kasutatudTähed = new Set();
-let popupLahti = false;
-let mängKäib = false;
+let andmed = {}; // Andmestiku failinimi
+let vastus = ""; // Õige lahendussõna, mis tuleb ära arvata
+let sisend = []; // Mängija hetkene sisend
+let aktiivneSõna = null; // Lahendussõna kirje koos sõna, seoste ja tähendustega
+let aktiivsedTähed = []; // Täheobjektid
+let praegusedTähed = []; // Tähtede visuaalne järjekord renderdamiseks
+let kasutatudTähed = new Set(); // Tähtede ID-d
+let popupLahti = false; // Hüpikaken avatud?
+let mängKäib = false; // Mäng käivitatud?
 
 /**
  * Käivitamisel ava koduleht ja laadi andmestik
@@ -64,19 +64,6 @@ function avaÕpetus() {
             Leia puuduv sõna graafist.<br>
             Igale mõistatusele on üks lahendus.<br><br>
         </strong>
-<<<<<<< Updated upstream
-        <strong>Graaf</strong><br>
-        Sõna värv ja paigutus tähistab selle leksikaal-semantilist suhet lahendussõnaga.<br><br>
-
-        <div id="juhis-nupud">
-            <button onclick="näitaJuhist(1)">Nimisõnad</button>
-            <button onclick="näitaJuhist(2)">Omadussõnad</button>
-            <button onclick="näitaJuhist(3)">Tegusõnad</button>
-        </div>
-
-        <div id="juhis-sisu" style="margin-top:10px;"></div><br>
-        
-=======
 
         <strong>
             Graaf
@@ -93,9 +80,8 @@ function avaÕpetus() {
 
         <div id="juhis-sisu" style="margin-top:10px;"></div><br><br>
 
->>>>>>> Stashed changes
         <strong>Täheruudustik</strong><br>
-        Graafi all on täheruudustik lahendussõna moodustamiseks.<br>
+        Graafi all on täheruudustik lahendussõna moodustamiseks.
         Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
     `;
 

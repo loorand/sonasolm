@@ -1,3 +1,12 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --ruut: 40px;
+    --vahe: 6px;
+}
+
 html, body {
     background-color: #193333;
     color: #CCFFFF;
@@ -200,21 +209,23 @@ p {
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 12px;
+    padding: 24px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: var(--vahe);
     box-sizing: border-box;
     border-top: 1px solid #2f5f5f;
     background: #142828;
 }
 
 #tähed {
+    margin-left: calc((var(--vahe) * 4));
+    margin-right: calc((var(--vahe) * 3));
     display: grid;
-    grid-template-rows: repeat(2, auto);
-    gap: 4px;
+    grid-template-rows: repeat(2, var(--ruut));
+    gap: var(--vahe);
     justify-content: center;
     font-weight: bold;
 }
@@ -225,15 +236,13 @@ p {
     align-items: center;
     background-color: #8CDDDD;
     color: #193333;
-    padding: 5px 5px;
-    width: 32px;
-    height: 32px;
+    width: var(--ruut);
+    height: var(--ruut);
     border-radius: 4px;
     font-size: 20px;
     cursor: pointer;
     user-select: none;
     text-transform: uppercase;
-    /* font-weight: bold; */
 }
 
 .täht-box:hover {
@@ -244,26 +253,30 @@ p {
     background-color: #193333;
     color: #8CDDDD;
     cursor: not-allowed;
-    opacity: 80%;
+    opacity: 0.8;
 }
 
-#tähed-nupud {
+#abinupud {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--vahe);
+    justify-content: center;
 }
 
 .s {
-    margin: 0px;
-    padding: 0 20px;
-    margin-right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FFD8A8;
-    color: #5A3A00;
-    font-size: 11px;
-    font-weight: bold;
+    background-color: #BCBDBF;
+    color: #142828;
+    font-size: 20px;
+    width: var(--ruut);
+    height: var(--ruut);
+}
+
+#esita {
+    height: calc((var(--ruut) * 2) + var(--vahe));
+    background-color: #AAD868;
 }
 
 #popup {
@@ -293,7 +306,7 @@ p {
         flex-direction: column;
     }
 
-    #tähed-nupud {
+    #abinupud {
         flex-direction: row;
         gap: 10px;
     }
