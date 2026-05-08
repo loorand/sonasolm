@@ -7,6 +7,8 @@ let praegusedTähed = []; // Tähtede visuaalne järjekord renderdamiseks
 let kasutatudTähed = new Set(); // Tähtede ID-d
 let popupLahti = false; // Hüpikaken avatud?
 let mängKäib = false; // Mäng käivitatud?
+let elud = 5; // Mitu eksimust mängijal lubatud?
+let skoor = 0; // Õiged vastused
 
 /**
  * Käivitamisel ava koduleht ja laadi andmestik
@@ -175,8 +177,25 @@ function uusSõna() {
         return;
     }
     document.getElementById("järgmine-nupp").style.display = "none";
+    elud = 5;
+    muudaElud();
 
     kuvaSõna(valiSõna());
+}
+
+function muudaElud() {
+    const elu = document.getElementById("elud");
+    let tekst = "";
+    for (let i = 0; i < 5; i++) {
+        tekst += i < elud ? "●" : "○"
+    }
+    elu.textContent = tekst.trim();
+}
+
+function muudaSkoor() {
+    const punktid = document.getElementById("skoor");
+    if (!punktid) return;
+    punktid.textContent = `${skoor}`;
 }
 
 
@@ -405,6 +424,8 @@ function kontrolliVastus() {
     const sisendString = sisend.map(t => t.täht).join("");
 
     if (sisendString === vastus) {
+        skoor++;
+        muudaSkoor();
         näitaPopup(
             `<strong>Õige!</strong><br><br>
             ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
@@ -416,8 +437,46 @@ function kontrolliVastus() {
         );
         document.getElementById("järgmine-nupp").style.display = "inline-block";
     } else {
-        näitaPopup("Vale! Õige sõna oli: " + vastus, false);
+        elud--;
+        muudaElud();
+        eludAnim();
     }
+
+    if (elud <= 0) {
+        näitaPopup(
+            `Mäng läbi!<br><br>
+            Õige sõna oli <strong>${vastus}</strong>.<br><br>
+            Skoor: <strong>${skoor}</strong><br><br>
+            <button onclick="nulliSeis()">Alusta uuesti</button>`,
+            false
+        );
+    }
+}
+
+function eludAnim() {
+    const elu = document.getElementById("elud");
+
+    elu.classList.remove("flash");
+    void elu.offsetWidth;
+    elu.classList.add("flash");
+
+    setTimeout(() => {
+        elu.classList.remove("flash");
+    }, 400);
+}
+
+function nulliSeis() {
+    elud = 5;
+    skoor = 0;
+    sisend = [];
+    kasutatudTähed = new Set();
+
+    muudaElud();
+    muudaSkoor();
+    uusSõna();
+
+    document.getElementById("popup").style.display = "none";
+    popupLahti = false;
 }
 
 /**

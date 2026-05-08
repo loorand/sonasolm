@@ -210,6 +210,34 @@ p {
     cursor: default;
 }
 
+#staatus {
+    position: fixed;
+    bottom: 150px;
+    justify-self: center;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+}
+
+#elud, #skoor {
+    display: inline-flex;
+    width: auto;
+    white-space: nowrap;
+    font-size: 24px;
+    letter-spacing: 4px;
+}
+
+@keyframes eludAnim {
+    0%   { color: #ff4d4d; transform: scale(1.4); }
+    100% { color: #8CDDDD; transform: scale(1); }
+}
+
+#elud.flash {
+    animation: eludAnim 0.4s ease;
+}
+
 #tähed-container {
     position: fixed;
     bottom: 0;
