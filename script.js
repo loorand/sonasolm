@@ -96,10 +96,6 @@ function avaÕpetus() {
                     sünonüüm
                 </div>
                 [otsitav sõna]
-                <div class="sõna-box syn"
-                    onclick="näitaSeletus('Samatähenduslik sõna, näiteks koer ja peni. NB! Sünonüümidel on ühine definitsioon - mängus seda piiluda ei saa!')">
-                    sünonüüm
-                </div>
             </div>
 
             <div class="näidis-tase">

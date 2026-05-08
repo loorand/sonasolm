@@ -121,6 +121,11 @@ button:hover {
     margin: 20px 0;
 }
 
+#popup-sisu #graaf-näidis .sõna-box {
+    font-size: 14px;
+    padding: 6px 10px;
+}
+
 .näidis-tase {
     display: flex;
     justify-content: center;
@@ -139,7 +144,7 @@ button:hover {
     margin-top: 10px;
     font-size: 15px;
     opacity: 0.9;
-    max-width: 500px;
+    max-width: 400px;
     justify-self: center;
 }
 
@@ -184,7 +189,7 @@ p {
 
 #keskmine {
     align-items: center;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 #sõna {
@@ -206,7 +211,7 @@ p {
     padding: 8px 14px;
     margin: 6px;
     border-radius: 8px;
-    font-size: 20px;
+    font-size: 18px;
     display: inline-block;
     cursor: pointer;
     transition: border-radius 0.15s ease, opacity 0.15s ease;
@@ -389,8 +394,8 @@ p {
     border-radius: 12px;
     max-width: 65%;
     text-align: center;
-    font-size: 18px;
-    max-height: 85vh;
+    font-size: 14px;
+    max-height: 66vh;
     overflow-y: auto;
     scroll-behavior: smooth;
 }
@@ -406,11 +411,11 @@ p {
     }
 
     #keskmine {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .sõna-box {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .tase {
