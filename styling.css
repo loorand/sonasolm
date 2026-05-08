@@ -131,7 +131,7 @@ button:hover {
 .näidis-tase {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
@@ -184,7 +184,7 @@ p {
 .tase {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 6px;
     margin: 8px 0;
     flex-wrap: wrap;
 }
@@ -404,7 +404,7 @@ p {
     scroll-behavior: smooth;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
     /* #graaf {
         scale: 0.9;
     } */
@@ -420,21 +420,9 @@ p {
 
     .sõna-box {
         font-size: 14px;
+        /* letter-spacing: -1px; */
+        padding: 8px 8px;
     }
-
-    .tase {
-        gap: 6px;
-    }
-
-    /* #tähed-container {
-        flex-direction: column;
-        padding: 16px;
-    }
-
-    #abinupud {
-        flex-direction: column;
-        gap: 10px;
-    } */
 
     #juhend p {
         max-width: 50%;
