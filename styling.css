@@ -4,7 +4,7 @@
 
 :root {
     --ruut: 40px;
-    --vahe: 6px;
+    --vahe: 8px;
 }
 
 html, body {
@@ -137,7 +137,7 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: calc(60vh - 60px - 120px);
+    height: calc(55vh);
 }
 
 .tase {
@@ -150,7 +150,12 @@ p {
 
 #keskmine {
     align-items: center;
-    font-size: 24px;
+    font-size: 28px;
+}
+
+#sõna {
+    font-family: "JetBrains Mono", monospace;
+    text-align: center;
 }
 
 #sõna-kesk {
@@ -167,7 +172,7 @@ p {
     padding: 8px 14px;
     margin: 6px;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 22px;
     display: inline-block;
     cursor: pointer;
     transition: border-radius 0.15s ease, opacity 0.15s ease;
@@ -221,10 +226,10 @@ p {
 }
 
 #tähed {
-    margin-left: calc((var(--vahe) * 4));
-    margin-right: calc((var(--vahe) * 3));
+    margin-left: calc((var(--vahe) * 2));
+    margin-right: calc((var(--vahe) * 2));
     display: grid;
-    grid-template-rows: repeat(2, var(--ruut));
+    grid-template-rows: repeat(0, var(--ruut));
     gap: var(--vahe);
     justify-content: center;
     font-weight: bold;
@@ -276,6 +281,7 @@ p {
 
 #esita {
     height: calc((var(--ruut) * 2) + var(--vahe));
+    min-width: var(--ruut);
     background-color: #AAD868;
 }
 
@@ -302,14 +308,36 @@ p {
 }
 
 @media (max-width: 600px) {
-    #tähed-container {
+    /* #graaf {
+        scale: 0.9;
+    } */
+
+    :root {
+        --ruut: 40px;
+        --vahe: 5px;
+    }
+
+    #keskmine {
+        font-size: 22px;
+    }
+
+    .sõna-box {
+        font-size: 18px;
+    }
+
+    .tase {
+        gap: 6px;
+    }
+
+    /* #tähed-container {
         flex-direction: column;
+        padding: 16px;
     }
 
     #abinupud {
-        flex-direction: row;
+        flex-direction: column;
         gap: 10px;
-    }
+    } */
 
     #juhend p {
         max-width: 50%;
