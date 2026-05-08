@@ -114,6 +114,35 @@ button:hover {
     color: #8CDDDD;
 }
 
+#graaf-näidis {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 20px 0;
+}
+
+.näidis-tase {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.näidis-tase.kesk {
+    justify-content: center;
+    align-items: center;
+}
+
+#seletus {
+    min-height: 24px;
+    height: 48px;
+    margin-top: 10px;
+    font-size: 15px;
+    opacity: 0.9;
+    max-width: 500px;
+    justify-self: center;
+}
+
 h1 {
     font-size: 40px;
     letter-spacing: 3px;
@@ -181,6 +210,7 @@ p {
     display: inline-block;
     cursor: pointer;
     transition: border-radius 0.15s ease, opacity 0.15s ease;
+    border: 1px solid #142828;
 }
 
 .sõna-box:hover {
@@ -217,13 +247,14 @@ p {
 
 #järgmine-nupp {
     position: fixed;
-    bottom: 190px;
-    justify-self: center;
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #staatus {
     position: fixed;
-    bottom: 150px;
+    bottom: 155px;
     justify-self: center;
     user-select: none;
     display: flex;
@@ -297,6 +328,22 @@ p {
     color: #8CDDDD;
     cursor: not-allowed;
     opacity: 0.8;
+}
+
+@keyframes tähedAnim {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.täht-box.shuffle {
+    animation: tähedAnim 0.2s ease;
 }
 
 #abinupud {

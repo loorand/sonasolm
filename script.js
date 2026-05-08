@@ -66,8 +66,9 @@ function avaÕpetus() {
     content.innerHTML = `
         <strong>
             Leia puuduv sõna graafist.<br>
-            Igale mõistatusele on üks lahendus.<br><br>
+            Igale mõistatusele on üks lahendus.<br>
         </strong>
+        Mäng kestab viienda eksimuseni.<br><br>
         <strong>
             Graaf
         </strong><br>
@@ -75,21 +76,70 @@ function avaÕpetus() {
         Sõna värv ja paigutus tähistab selle semantilist suhet lahendussõnaga.<br>
         Graafi kuju ja hierarhia sõltub sõnaliigist.<br><br>
 
-        <div id="juhis-nupud">
-            <button onclick="näitaJuhist(1, this)">Nimisõnad</button>
-            <button onclick="näitaJuhist(2, this)">Omadussõnad</button>
-            <button onclick="näitaJuhist(3, this)">Tegusõnad</button>
-        </div>
+        Uuri allolevas graafis võimalikke semantilisi suhteid.<br>
+        Sõnale vajutades kuvatakse selle tähendus!
+        <div id="graaf-näidis">
+            <div class="näidis-tase">
+                <div class="sõna-box hyper"
+                    onclick="näitaSeletus('Ülemmõiste, näiteks [mööbliese] > kapp.')">
+                    hüperonüüm
+                </div>
+                <div class="sõna-box holo"
+                    onclick="näitaSeletus('Tervikut väljendav sõna, näiteks [käsi] > sõrm.')">
+                    holonüüm
+                </div>
+            </div>
 
-        <div id="juhis-sisu" style="margin-top:10px;"></div><br><br>
+            <div class="näidis-tase kesk">
+                <div class="sõna-box syn"
+                    onclick="näitaSeletus('Samatähenduslik sõna, näiteks koer ja peni. NB! Sünonüümidel on ühine definitsioon - mängus seda piiluda ei saa!')">
+                    sünonüüm
+                </div>
+                [otsitav sõna]
+                <div class="sõna-box syn"
+                    onclick="näitaSeletus('Samatähenduslik sõna, näiteks koer ja peni. NB! Sünonüümidel on ühine definitsioon - mängus seda piiluda ei saa!')">
+                    sünonüüm
+                </div>
+            </div>
+
+            <div class="näidis-tase">
+                <div class="sõna-box hypo"
+                    onclick="näitaSeletus('Alammõiste, näiteks [kapp] < mööbliese.')">
+                    hüponüüm
+                </div>
+                <div class="sõna-box mero"
+                    onclick="näitaSeletus('Osa väljendav sõna, näiteks [sõrm] < käsi.')">
+                    meronüüm
+                </div>
+            </div>
+            <i><div id="seletus"></div></i>
+        </div>
 
         <strong>Täheruudustik</strong><br>
         Graafi all on täheruudustik lahendussõna moodustamiseks.<br>
-        Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br>
+        Ruudustik sisaldab vajalikke tähti, kuid sekka on lisatud ka üleliigseid.<br><br>
+
+        <strong>
+            Abi
+        </strong><br>
+        ⌫ / Delete - Kustuta täht<br>
+        ⇄ - Sega tähed<br>
+        ➤ / Enter - Esita vastus<br>
     `;
 
     document.getElementById("popup").style.display = "flex";
     popupLahti = true;
+}
+
+function näitaSeletus(tekst) {
+    const väli = document.getElementById("seletus");
+
+    if (väli.textContent === tekst) {
+        väli.textContent = "";
+        return;
+    }
+
+    väli.textContent = tekst;
 }
 
 function näitaJuhist(sõnaliik, nupp) {
@@ -450,6 +500,11 @@ document.addEventListener("keydown", function(e) {
         näitaTähed(praegusedTähed);
         }
     } else if (e.key === "Enter") {
+        if (lahendatud && !mängLäbi) {
+            uusSõna();
+            sulgePopup();
+            return;
+        }
         kontrolliVastus();
     }
 
@@ -480,7 +535,7 @@ function kontrolliVastus() {
         lahendatud = true;
         näitaPopup(
             `<strong>Õige!</strong><br><br>
-            ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
+            <strong>${vastus}</strong> - ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
             <button onclick="uusSõna(); sulgePopup();">
                 Uus sõna
             </button>
@@ -609,6 +664,17 @@ function näitaTähed(tähelist) {
 function segaTähed() {
     praegusedTähed = [...aktiivsedTähed].sort(() => Math.random() - 0.5);
     näitaTähed(praegusedTähed);
+    tähedAnim();
+}
+
+function tähedAnim() {
+    const tähed = document.querySelectorAll("#tähed .täht-box");
+
+    tähed.forEach(täht => {
+        täht.classList.remove("shuffle");
+        void täht.offsetWidth;
+        täht.classList.add("shuffle");
+    });
 }
 
 /**
