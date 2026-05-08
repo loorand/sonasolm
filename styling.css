@@ -4,7 +4,9 @@
 
 :root {
     --ruut: 40px;
-    --vahe: 8px;
+    --tähe-laius: clamp(20px, 6vw, 40px);
+    --tähe-kõrgus: 40px;
+    --vahe: clamp(6px, 1.2vw, 8px);
 }
 
 html, body {
@@ -288,7 +290,7 @@ p {
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 24px;
+    padding: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -300,10 +302,12 @@ p {
 }
 
 #tähed {
-    margin-left: calc((var(--vahe) * 2));
-    margin-right: calc((var(--vahe) * 2));
+    margin-left: var(--vahe);
+    margin-right: var(--vahe);
     display: grid;
-    grid-template-rows: repeat(0, var(--ruut));
+    grid-template-rows: repeat(2, var(--tähe-kõrgus));
+    grid-auto-flow: column;
+    grid-auto-columns: var(--tähe-laius);
     gap: var(--vahe);
     justify-content: center;
     font-weight: bold;
@@ -315,8 +319,8 @@ p {
     align-items: center;
     background-color: #CCFFFF;
     color: #193333;
-    width: var(--ruut);
-    height: var(--ruut);
+    width: var(--tähe-laius);
+    height: var(--tähe-kõrgus);
     border-radius: 4px;
     font-size: 20px;
     cursor: pointer;
@@ -405,10 +409,10 @@ p {
         scale: 0.9;
     } */
 
-    :root {
+    /* :root {
         --ruut: 40px;
         --vahe: 5px;
-    }
+    } */
 
     #keskmine {
         font-size: 18px;

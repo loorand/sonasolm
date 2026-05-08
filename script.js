@@ -633,9 +633,6 @@ function näitaTähed(tähelist) {
     const container = document.getElementById("tähed");
     container.innerHTML = "";
 
-    const veerud = aktiivsedTähed.length / 2;
-    container.style.gridTemplateColumns = `repeat(${veerud}, 40px)`;
-
     for (let tähenupp of tähelist) {
         const div = document.createElement("div");
         div.className = "täht-box";
