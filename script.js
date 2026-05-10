@@ -11,23 +11,23 @@ let mängLäbi = false; // Mäng lõppenud?
 let elud = 5; // Mitu eksimust mängijal lubatud?
 let skoor = 0; // Õiged vastused
 let lahendatud = false;
+let andmedOlemas = false;
+let laadimineKäimas = false;
 
 /**
  * Käivitamisel ava koduleht ja laadi andmestik
  */
-window.onload = function() {
-    avaKodu();
-    laadiAndmed();
+window.onload = async function() {
+    avaleht();
+    await laadiAndmed();
 
     document.getElementById("kustuta").onclick = kustutaTäht;
     document.getElementById("jaga").onclick = segaTähed;
     document.getElementById("esita").onclick = kontrolliVastus;
+    document.getElementById("jätavahele").onclick = jätaVahele;
 };
 
-/**
- * Funktsioonid lehtedele
- */
-function avaKodu() {
+function avaleht() {
     const popup = document.getElementById("popup");
 
     if (popupLahti) {
@@ -38,7 +38,37 @@ function avaKodu() {
     kuvaLeht("koduleht");
 }
 
+/**
+ * Funktsioonid lehtedele
+ */
+function avaKodu() {
+    const popup = document.getElementById("popup");
+    const content = document.getElementById("popup-sisu");
+
+    content.innerHTML = `
+        Kas oled kindel, et soovid avalehele naasta?<br><br>
+        <button onClick="liiguAvalehele()">Tagasi avalehele</button>
+    `;
+
+    popup.style.display = "flex";
+    popupLahti = true;
+}
+
+function liiguAvalehele() {
+    const popup = document.getElementById("popup");
+
+    if (popupLahti) {
+        popup.style.display = "none";
+        popupLahti = false;
+    }
+
+    nulliSeis();
+    kuvaLeht("koduleht");
+}
+
 function avaMäng() {
+    if (!andmedOlemas) return;
+
     kuvaLeht("mänguleht");
     if (!mängKäib) {
         uusSõna();
@@ -118,8 +148,9 @@ function avaÕpetus() {
         <strong>
             Abi
         </strong><br>
-        ⌫ / Delete - Kustuta täht<br>
+        ⏭ - Jäta mõistatus vahele<br>
         ⇄ - Sega tähed<br>
+        ⌫ / Delete - Kustuta viimane täht<br>
         ➤ / Enter - Esita vastus<br>
     `;
 
@@ -197,12 +228,24 @@ function kuvaLeht(id) {
 /**
  * Andmete laadimine failist (antud juhul relations.json)
  */
-function laadiAndmed() {
-    fetch("relations.json")
-        .then(res => res.json())
-        .then(data => {
-            andmed = data;
-        })
+async function laadiAndmed() {
+    if (laadimineKäimas) return;
+    laadimineKäimas = true;
+
+    try {
+        const res = await fetch("relations.json");
+        if (!res.ok) throw new Error("Andmete laadimine ebaõnnestus.");
+
+        andmed = await res.json();
+        andmedOlemas = true;
+
+        const mänguNupp = document.getElementById("mänguNupp");
+        mänguNupp.disabled = false;
+        mänguNupp.textContent = "Alusta mängu";
+
+    } catch (viga) {
+        console.error(viga);
+    }
 }
 
 function nulliMäng() {
@@ -477,6 +520,10 @@ popupsisu.addEventListener("click", (e) => {
  * Klaviatuuri sisendi töötlemise abifunktsioon
  */
 document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && popupLahti) {
+        sulgePopup();
+    }
+
     if (document.getElementById("mänguleht").style.display !== "block") return;
     if (mängLäbi) return;
 
@@ -512,8 +559,8 @@ document.addEventListener("keydown", function(e) {
  * Pakutud vastuse kontroll ja otsus
  */
 function kontrolliVastus() {
-    if (mängLäbi) return;
     const sisendString = sisend.map(t => t.täht).join("");
+    if (mängLäbi || sisendString.length !== vastus.length) return;
 
     if (lahendatud && sisendString === vastus) {
         näitaPopup(`
@@ -532,7 +579,7 @@ function kontrolliVastus() {
         lahendatud = true;
         näitaPopup(
             `<strong>Õige!</strong><br><br>
-            <strong>${vastus}</strong> - ${aktiivneSõna.tähendus || "Definitsioon puudub"}<br><br>
+            <strong>${vastus}</strong> - ${aktiivneSõna.tähendus || "Definitsioon puudub"}.<br><br>
             <button onclick="uusSõna(); sulgePopup();">
                 Uus sõna
             </button>
@@ -547,15 +594,43 @@ function kontrolliVastus() {
     }
 
     if (elud <= 0) {
-        mängLäbi = true;
-        näitaPopup(
-            `Mäng läbi!<br>
-            Leidsid <strong>${skoor}</strong> õiget sõna.<br><br>
-            Õige sõna oli <strong>${vastus}</strong>.<br><br>
-            <button onclick="nulliSeis()">Alusta uuesti</button>`,
-            false
-        );
+        lõpetaMäng();
     }
+}
+
+function lõpetaMäng() {
+    mängLäbi = true;
+    näitaPopup(
+        `Mäng läbi!<br>
+        Leidsid <strong>${skoor}</strong> õiget sõna.<br><br>
+        Õige sõna oli <strong>${vastus}</strong> - ${aktiivneSõna.tähendus || "Definitsioon puudub"}.<br><br>
+        <button onclick="nulliSeis()">Alusta uuesti</button>`,
+        false
+    );
+}
+
+function jätaVahele() {
+    if (lahendatud || mängLäbi) return;
+    elud--;
+    muudaElud();
+    eludAnim();
+    popupLahti = true;
+    lahendatud = true;
+
+    if (elud <= 0) {
+        lõpetaMäng();
+        return;
+    } else {
+        document.getElementById("järgmine-nupp").style.display = "inline-block";
+    }
+
+    näitaPopup(
+        `Õige sõna oli <strong>${vastus}</strong> - ${aktiivneSõna.tähendus || "Definitsioon puudub"}.<br><br>
+        <button onclick="uusSõna(); sulgePopup();">
+            Uus sõna
+        </button>`,
+        null
+    );
 }
 
 function eludAnim() {
@@ -585,6 +660,7 @@ function näitaPopup(tekst, success = null) {
 
     content.innerHTML = `<div style="${värv}">${tekst}</div>`;
     popup.style.display = "flex";
+    popupLahti = true;
 }
 
 function sulgePopup() {

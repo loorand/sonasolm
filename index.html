@@ -12,24 +12,19 @@
     <button class="põhinupud" id="koduNupp" onclick="avaKodu()" style="display:none;">←</button>
     <button class="põhinupud" id="õpetusNupp" onclick="avaÕpetus()">?</button>
     <button class="põhinupud" id="nulliNupp" onclick="nulliMäng()">↻</button>
-        <!-- <button onclick="avaMäng()">Alusta</button> -->
-        <!-- <button onclick="avaÕpetus()">Õpetus</button> -->
-    <!-- </div> -->
-    <!-- <h1>Sõnasõlm.</h1> -->
 
     <div id="koduleht" class="leht">
         <h2>Sõnasõlm</h2>
         <p>Kas tunned sõnavara?</p>
         
         <div id="mängud">
-            <button onclick="avaMäng()">Kõik sõnad</button>
-            <button disabled>---</button>
-            <button disabled>---</button>
+            <button id="mänguNupp" onclick="avaMäng()" disabled>Mängu laaditakse...</button>
+            <button onclick="avaÕpetus()">Tutvu reeglitega</button>
         </div>
         
         <div id="juhend">
-            <p>Mängu eesmärk on leida õige sõna vastavalt graafile.</p>
-            <button onclick="avaÕpetus()">?</button>
+            <p>Mängu eesmärk on leida graafist puuduv sõna semantiliste suhete põhjal.</p>
+            <!-- <button onclick="avaÕpetus()">?</button> -->
         </div>
     </div>
 
@@ -45,18 +40,24 @@
         </div>
 
         <button id="järgmine-nupp" style="display:none" onclick="uusSõna()">Uus sõna</button>
+
         <div id="staatus">
             <div id="elud"></div>
             <div id="skoor">0</div>
         </div>
+
         <div id="tähed-container">
             <div id="abinupud">
-                <div id="kustuta" class="täht-box s">⌫</div>
+                <div id="jätavahele" class="täht-box s">⏭</div>
                 <div id="jaga" class="täht-box s">⇄</div>
             </div>
+
             <div id="tähed"></div>
-            <div id="esita" class="täht-box s">➤</div>
-            
+
+            <div id="abinupud">
+                <div id="kustuta" class="täht-box s">⌫</div>
+                <div id="esita" class="täht-box s">➤</div>
+            </div>
         </div>
     </div>
 
